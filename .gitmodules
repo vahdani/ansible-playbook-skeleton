@@ -1,0 +1,3 @@
+[submodule "deployment/roles/common"]
+	path = deployment/roles/common
+	url = https://github.com/vrischmann/ansible-role-common.git

@@ -1,0 +1,61 @@
+#!/bin/bash
+
+function print_help()
+{
+	printf "Usage: $0 <command>\n"
+	printf "%-10s     %s\n" prod "Run Ansible Playbook on the production environment"
+	printf "%-10s     %s\n" dev "Run Ansible Playbook on the development environment"
+	printf "%-10s     %s\n" bootstrap "Bootstrap the development environment"
+	printf "%-10s     %s\n" prod-straight "Run Ansible on the production environment"
+	printf "%-10s     %s\n" dev-straight "Run Ansible on the development environment"
+	exit 1
+}
+
+if [[ $# -lt 1 ]]; then
+	print_help $@
+fi
+
+command="$1"
+shift 1
+extra_args="$@"
+
+export ANSIBLE_NOCOWS=1
+
+function ansible_dev()
+{
+	host_pattern="$1"
+	shift 1
+	export ANSIBLE_HOST_KEY_CHECKING=False
+	ansible $host_pattern --user vagrant --sudo --private-key=$HOME/.vagrant.d/insecure_private_key -i deployment/dev $@
+	unset ANSIBLE_HOST_KEY_CHECKING
+}
+
+function ansibe_playbook_dev()
+{
+	export ANSIBLE_HOST_KEY_CHECKING=False
+	ansible-playbook --user vagrant --sudo --private-key=$HOME/.vagrant.d/insecure_private_key -i deployment/dev deployment/site.yml $@
+	unset ANSIBLE_HOST_KEY_CHECKING
+}
+
+case $command in
+	prod)
+		ansible-playbook -i deployment/prod deployment/site.yml $extra_args
+		;;
+	dev)
+		ansibe_playbook_dev $extra_args
+		;;
+	bootstrap)
+		vagrant destroy -f
+		vagrant up
+		;;
+	dev-straight)
+		ansible_dev $extra_args
+		;;
+	prod-straight)
+		ansible -i deployment/prod $extra_args
+		;;
+	*)
+		print_help $@
+		;;
+esac
+
