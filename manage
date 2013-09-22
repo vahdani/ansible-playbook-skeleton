@@ -3,11 +3,11 @@
 function print_help()
 {
 	printf "Usage: $0 <command>\n"
-	printf "%-10s     %s\n" prod "Run Ansible Playbook on the production environment"
-	printf "%-10s     %s\n" dev "Run Ansible Playbook on the development environment"
-	printf "%-10s     %s\n" bootstrap "Bootstrap the development environment"
-	printf "%-10s     %s\n" prod-straight "Run Ansible on the production environment"
-	printf "%-10s     %s\n" dev-straight "Run Ansible on the development environment"
+	printf "%-15s     %s\n" prod "Run Ansible Playbook on the production environment"
+	printf "%-15s     %s\n" dev "Run Ansible Playbook on the development environment"
+	printf "%-15s     %s\n" bootstrap "Bootstrap the development environment"
+	printf "%-15s     %s\n" prod-straight "Run Ansible on the production environment"
+	printf "%-15s     %s\n" dev-straight "Run Ansible on the development environment"
 	exit 1
 }
 
