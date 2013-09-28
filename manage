@@ -58,4 +58,3 @@ case $command in
 		print_help $@
 		;;
 esac
-
