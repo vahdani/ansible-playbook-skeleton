@@ -30,7 +30,7 @@ function ansible_dev()
 	unset ANSIBLE_HOST_KEY_CHECKING
 }
 
-function ansibe_playbook_dev()
+function ansible_playbook_dev()
 {
 	export ANSIBLE_HOST_KEY_CHECKING=False
 	ansible-playbook --user vagrant --sudo --private-key=$HOME/.vagrant.d/insecure_private_key -i deployment/dev deployment/site.yml $@
@@ -42,7 +42,7 @@ case $command in
 		ansible-playbook -i deployment/prod deployment/site.yml $extra_args
 		;;
 	dev)
-		ansibe_playbook_dev $extra_args
+		ansible_playbook_dev $extra_args
 		;;
 	bootstrap)
 		vagrant destroy -f
